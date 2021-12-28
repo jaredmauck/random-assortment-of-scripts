@@ -29,7 +29,7 @@ while choice != 0:
         if choice == 0:
             print('Script Complete.')
         elif choice <= 4:
-            choice = 100
+            choice = choice
         else:
             print('use an integer between 1-4 or 0 if finished')
     except ValueError:
