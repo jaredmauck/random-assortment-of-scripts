@@ -1,4 +1,5 @@
 import re
+from rich import print
 
 def mac_address_input():
     with open('macadd.txt', 'r') as macaddress:
