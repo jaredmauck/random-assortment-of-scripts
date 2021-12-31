@@ -17,30 +17,29 @@
         - path flash:archive
         parents: archive
 
-- name: Test NAPALM on IOS (SW1)
-  hosts: sw1
+- name: NAPALM on IOS
+  hosts: switches
   tasks:
-    - name: Config Replace on SW1
+    - name: Config Replace
       napalm_install_config:
-        hostname: sw1
+        hostname: "{{ ansible_net_hostname }}"
         username: "{{ ansible_user }}"
         password: "{{ ansible_ssh_pass }}"
         dev_os: "{{ ansible_network_os }}"
-        config_file: playbooks/configurations/napalm-configs/sw1.conf #should be ran from Ansible-Github directory
+        config_file: playbooks/configurations/napalm-configs/{{ ansible_net_hostname }}.conf #should be ran from Ansible-Github directory
         commit_changes: True
         replace_config: True
-        diff_file: playbooks/configurations/napalm-diffs/sw1.diff #should be ran from Ansible-Github directory
-
-# - name: Test NAPALM on IOS (SW2)
-#   hosts: sw2
-#   tasks:
-#     - name: Config Replace on SW2
-#       napalm.napalm.napalm_install_config:
-#             hostname: sw2
-#             username: "{{ ansible_user }}"
-#             password: "{{ ansible_ssh_pass }}"
-#             dev_os: "{{ ansible_network_os }}"
-#             config_file: $HOME/github/Ansible-Github/playbooks/ios/sw2.conf
-#             commit_changes: True
-#             replace_config: True
-#             diff_file: sw2.diff
+        diff_file: playbooks/configurations/napalm-diffs/{{ ansible_net_hostname }}.diff #should be ran from Ansible-Github directory
+- name: Post-configurations
+  hosts: switches
+  gather_facts: no
+  tasks:
+    - name: disable scp
+      cisco.ios.ios_config:
+        lines:
+        - no ip scp server enable
+    - name: disable archive feature
+      cisco.ios.ios_config:
+        lines:
+        - no archive
+        
