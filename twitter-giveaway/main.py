@@ -6,7 +6,7 @@ import random
 
 women_commenters = getpass.getpass(prompt = "Provide commenters: ").split()
 
-winners = random.choices(women_commenters, k=2)
+winners = random.choices(women_commenters, k=3)
 
 for winner in winners:
     print(winner)
