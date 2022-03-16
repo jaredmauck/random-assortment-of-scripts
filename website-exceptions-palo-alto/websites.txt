@@ -1,5 +1,0 @@
-google.com
-yahoo.com
-github.com
-python.org
-youtube.com
